@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
+    body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
+    td,th,caption { font-size:14px; }
+    h1, h2, h3, h4, h5, h6 {  font-size:100%; }
+    address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; }
+    a { color:#555; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    img { border:none; }
+    ol,ul,li { list-style:none; }
+    input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
+    table { border-collapse:collapse; }
+    html {overflow-y: scroll;} 
+    .scroll-box{width: 100vw;overflow-x: auto;}
+    body{width: 100vw;overflow: hidden;}
+  </style>
+</head>
+<body>
+  <script>
+    const tables = document.getElementsByTagName('table');
+    tables.map(ele => {
+      const outEle = document.createElement('div');
+      outEle.className = 'scroll-box';
+      
+      ele.parentNode.replaceChild(ele,outEle);
+      outEle.appendChild(ele);
+    })
+  </script>
+</body>
+</html>
