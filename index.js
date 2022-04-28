@@ -2,6 +2,7 @@ var mammoth = require("mammoth");
 const fs = require('fs');
 
 const fileName = 'andriod'
+// const fileName = 'ios'
 
 function tableContain(str) {
   const reg = /table[^>]*>[^<]*<\/table>/gi,
@@ -35,9 +36,29 @@ function transfer2(str) {
       table { border-collapse:collapse; }
       html {overflow-y: scroll;} 
       table td{border:1px solid #000}
-      .scroll-box{width: 100vw;overflow-x: auto;}
-      body{width: calc(100vw - 30px);overflow: hidden;padding: 0 15px;}
+      .scroll-box{width: calc(100vw - 30px);overflow-x: auto;}
+      body{width: calc(100vw - 30px);overflow: hidden;padding: 0 15px;-webkit-text-size-adjust: 100%;}
+      p{margin-top: 10px;}
     </style>
+    <script>
+      window.inApp = !!window.PCJSKit || !!window.PCJSKitObj;
+      const win = window;
+      const $callNative = (object) => {
+        if (win.inApp) {
+          console.log("执行协议:", object.action);
+          if (win.pcBabbyFramework) {
+            win.pcBabbyFramework.postMessage(JSON.stringify(object));
+          } else {
+            let ios = win.webkit,
+              iosFn = ios.messageHandlers.pcBabbyFramework;
+            ios && iosFn && iosFn.postMessage(object);
+          }
+        } else {
+          console.warn && console.warn("协议 " + "需要在app中执行");
+        }
+      }
+      $callNative({action:'changeTopBar',id: Math.random().toString(),callback:'globalCallBack',data:{hiddenTopBar:false,title:'隐私政策',type:0,hiddenBackButton:false,statusBarStyle:0}})
+    </script>
   </head>
   <body>
     ${str}
@@ -50,6 +71,12 @@ function transfer2(str) {
         outEle.className = 'scroll-box';
         parentNode.replaceChild(outEle,ele);
         outEle.appendChild(ele)
+      }
+      const linkList = document.getElementsByTagName('a');
+      while(linkList.length) {
+        const p  = document.createElement('p');
+        p.innerHTML = linkList[0].innerHTML;
+        linkList[0].parentNode.replaceChild(p,linkList[0])
       }
     </script>
   </body>
